@@ -31,7 +31,7 @@ Before running this project, make sure you have the following:
 
 ![project](img/img1.png)
 
-![project](img/LogoApp-second.png)
+![project](img/LogoApp-second.webp)
 
 # Project directory tree structure
 
