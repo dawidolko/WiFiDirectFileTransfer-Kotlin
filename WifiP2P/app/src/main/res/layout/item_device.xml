@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:cardCornerRadius="12dp"
+    app:cardElevation="6dp"
+    app:cardBackgroundColor="@color/background_black"
+    app:cardUseCompatPadding="true"
+    android:layout_marginVertical="8dp"
+    android:layout_marginHorizontal="16dp">
+
+<LinearLayout
+android:layout_width="match_parent"
+android:layout_height="wrap_content"
+android:orientation="vertical"
+android:padding="20dp">
+
+<TextView
+    android:id="@+id/tvDeviceName"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="4dp"
+    android:textSize="20sp"
+    android:textStyle="bold"
+    android:textColor="@color/text_white"
+    tools:text="Redmi K70" />
+
+<TextView
+    android:id="@+id/tvDeviceAddress"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="4dp"
+    android:textSize="18sp"
+    android:textColor="@color/text_white"
+    tools:text="192.168.0.1" />
+
+<TextView
+    android:id="@+id/tvDeviceDetails"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:textSize="18sp"
+    android:textColor="@color/text_white"
+    android:textStyle="italic"
+    tools:text="Available" />
+
+</LinearLayout>
+
+    </androidx.cardview.widget.CardView>

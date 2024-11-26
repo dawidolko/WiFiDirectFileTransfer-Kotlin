@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">WifiDirect</string>
+    <string name="tips">1. Both sender and receiver need to enable Wi-Fi\n2. The receiver should create a group first, and the sender should find the device and click connect\n3. Once connected, the receiver should start listening, then the sender can select a file to send</string>
+</resources>
