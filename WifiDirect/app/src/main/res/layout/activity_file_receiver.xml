@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background_black"
+    tools:context=".FileActivity.FileReceiverActivity">
+
+    <!-- Logo aplikacji -->
+    <ImageView
+        android:id="@+id/logoImageView"
+        android:layout_width="272dp"
+        android:layout_height="276dp"
+        android:contentDescription="@string/app_name"
+        android:src="@drawable/ic_default_p2p"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- LinearLayout do przycisków -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:weightSum="1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/logoImageView">
+
+        <!-- Start Receiving Button -->
+        <Button
+            android:id="@+id/btnStartReceive"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:layout_weight="1"
+            android:background="@drawable/button_background"
+            android:padding="15dp"
+            android:text="Start Receiving"
+            android:textColor="@android:color/white"
+            android:textSize="18sp" />
+
+        <!-- Stop Receiving Button -->
+        <Button
+            android:id="@+id/btnStopReceive"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/button_background"
+            android:padding="15dp"
+            android:text="Stop Receiving"
+            android:textColor="@android:color/white"
+            android:textSize="18sp" />
+
+
+        <Button
+            android:id="@+id/btnOpenDownloads"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/button_background"
+            android:padding="15dp"
+            android:text="Open Downloads"
+            android:textColor="@android:color/white"
+            android:textSize="18sp"
+            android:layout_marginTop="20dp"
+            app:layout_constraintTop_toBottomOf="@id/btnStopReceive"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,54 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="pl.dawidolko.wifidirect">
+
+    <!-- Uprawnienia -->
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.NEARBY_WIFI_DEVICES" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.BLUETOOTH"/>
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:theme="@style/Theme.AppCompat.DayNight.DarkActionBar"
+        android:appComponentFactory="androidx.core.app.CoreComponentFactory">
+
+        <!-- Aktywność SplashActivity jako pierwsza -->
+        <activity android:name=".SplashActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <!-- Główna aktywność aplikacji (MainActivity) -->
+        <activity android:name=".MainActivity">
+            <!-- Po 3 sekundach SplashActivity przechodzi do MainActivity -->
+        </activity>
+
+        <activity android:name=".WifiDirectActivity" />
+
+        <!-- Aktywności -->
+
+        <activity android:name=".FileActivity.FileSenderActivity" />
+        <activity android:name=".FileActivity.FileReceiverActivity" />
+
+        <!-- Aktywność TrustedDevicesActivity (Historia zaufanych urządzeń) -->
+        <activity android:name=".TrustedDevicesActivity.TrustedDevicesActivity" />
+
+        <!-- Aktywność HistoryActivity (Historia przesłanych plików) -->
+        <activity android:name=".HistoryActivity.HistoryActivity" />
+
+    </application>
+
+</manifest>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Stan naciśnięcia -->
+    <item android:state_pressed="true">
+        <shape>
+            <solid android:color="@color/logo_background_color"/> <!-- Ciemniejszy kolor na naciśnięcie -->
+            <corners android:radius="16dp"/>
+            <padding
+                android:left="12dp"
+                android:top="12dp"
+                android:right="12dp"
+                android:bottom="12dp"/>
+            <stroke android:color="@android:color/darker_gray" android:width="1dp"/>
+            <size android:width="200dp" android:height="100px"/>
+        </shape>
+    </item>
+
+    <!-- Domyślny stan -->
+    <item>
+        <shape>
+            <solid android:color="@color/logo_background_color"/>
+            <corners android:radius="16dp"/>
+            <padding
+                android:left="12dp"
+                android:top="12dp"
+                android:right="12dp"
+                android:bottom="12dp"/>
+            <stroke android:color="@android:color/darker_gray" android:width="1dp"/>
+            <size android:width="200dp" android:height="100px"/>
+        </shape>
+    </item>
+</selector>

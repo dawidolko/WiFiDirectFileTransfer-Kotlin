@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background_black"
+    tools:context=".TrustedDevicesActivity.TrustedDevicesActivity">
+
+    <!-- Logo aplikacji -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:weightSum="1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:ignore="MissingConstraints">
+
+        <ImageView
+            android:id="@+id/logoImageView"
+            android:layout_marginTop="16dp"
+            android:layout_width="231dp"
+            android:layout_height="257dp"
+            android:contentDescription="@string/app_name"
+            android:src="@mipmap/ic_launcher_foreground"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <!-- Nagłówek listy zaufanych urządzeń -->
+        <TextView
+            android:layout_width="338dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:text="Trusted Devices"
+            android:textColor="@android:color/white"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <!-- RecyclerView to display the trusted devices -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvTrustedDevices"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/background_black"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:textColor="@android:color/white"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+        <!-- TextView to show if there are no devices -->
+        <TextView
+            android:id="@+id/tvEmptyMessage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="No trusted devices"
+            android:textColor="@android:color/white"
+            android:visibility="gone"
+            android:layout_centerInParent="true"
+            app:layout_constraintBottom_toTopOf="@id/rvTrustedDevices" />
+
+        <!-- Button to add a trusted device -->
+        <Button
+            android:id="@+id/btnAddToTrusted"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Add to Trusted Devices"
+            android:textColor="@android:color/white"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/button_background"
+            app:layout_constraintTop_toBottomOf="@id/tvEmptyMessage"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:visibility="gone"/>
+
+        <Button
+            android:id="@+id/btnFetchDevices"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Fetch Connected Devices"
+            android:layout_marginTop="16dp"
+            android:textColor="@android:color/white"
+            android:background="@drawable/button_background"
+            app:layout_constraintTop_toBottomOf="@id/btnAddToTrusted"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
