@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:background="@color/background_black"
+    android:padding="16dp">
+
+    <!-- Logo aplikacji na górze -->
+    <ImageView
+        android:id="@+id/ivLogo"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:src="@mipmap/ic_launcher_round"
+        android:contentDescription="App Logo"
+        android:layout_gravity="center"
+        android:layout_marginBottom="24dp" />
+
+    <!-- Informacja o włączeniu Wi-Fi, GPS i uprawnieniach -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Please enable Wi-Fi, GPS, and grant all permissions"
+        android:textColor="@color/text_white"
+        android:textSize="18sp"
+        android:gravity="center"
+        android:layout_marginBottom="16dp" />
+
+    <!-- Przycisk do sprawdzenia uprawnień -->
+    <Button
+        android:id="@+id/btnCheckPermission"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Check Permissions"
+        android:backgroundTint="@color/button_gray"
+        android:textColor="@color/text_white"
+        android:layout_marginBottom="16dp" />
+
+    <!-- Przycisk do wysyłania plików -->
+    <Button
+        android:id="@+id/btnSender"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="File Sender"
+        android:backgroundTint="@color/button_gray"
+        android:textColor="@color/text_white"
+        android:layout_marginBottom="16dp" />
+
+    <!-- Przycisk do odbierania plików -->
+    <Button
+        android:id="@+id/btnReceiver"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="File Receiver"
+        android:backgroundTint="@color/button_gray"
+        android:textColor="@color/text_white"
+        android:layout_marginBottom="16dp" />
+
+    <!-- Przycisk historii plików -->
+    <Button
+        android:id="@+id/btnHistory"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="History"
+        android:backgroundTint="@color/button_gray"
+        android:textColor="@color/text_white"
+        android:layout_marginBottom="16dp" />
+
+    <!-- Przycisk do wyświetlenia lokalizacji -->
+    <Button
+        android:id="@+id/btnShowLocation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Show Location"
+        android:backgroundTint="@color/button_gray"
+        android:textColor="@color/text_white" />
+
+</LinearLayout>

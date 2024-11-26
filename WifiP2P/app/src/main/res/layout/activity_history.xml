@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/background_black"
+    android:padding="16dp">
+
+    <!-- Nagłówek listy historii -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="File history list"
+        android:textColor="@color/text_white"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="12dp" />
+
+    <!-- Wiadomość o pustej liście -->
+    <TextView
+        android:id="@+id/tvEmptyMessage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="No history available"
+        android:textSize="18sp"
+        android:textColor="@color/text_white"
+        android:gravity="center"
+        android:layout_marginBottom="16dp"
+        android:visibility="gone" />
+
+    <!-- Lista historii plików -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvHistoryList"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/background_black" />
+
+</LinearLayout>

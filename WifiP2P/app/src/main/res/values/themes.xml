@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <style name="Base.Theme.WifiP2P" parent="Theme.Material3.Light">
+        <item name="colorPrimary">@color/color_top_bar</item>
+        <item name="colorOnSurface">@android:color/white</item>
+<!--        <item name="colorBackground">@attr/colorBackground</item>-->
+        <!--        <item name="colorBackground">@color/background_black</item>-->
+        <item name="toolbarStyle">@style/Theme.WifiP2P.Toolbar</item>
+        <item name="android:navigationBarColor">@android:color/white</item>
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:windowLightNavigationBar" tools:targetApi="o_mr1">true</item>
+    </style>
+
+    <style name="Theme.WifiP2P" parent="Base.Theme.WifiP2P" />
+
+    <style name="Theme.WifiP2P.Toolbar" parent="Widget.Material3.Toolbar">
+        <item name="android:background">@color/color_top_bar</item>
+    </style>
+
+    <!-- Styl dla przycisków -->
+    <style name="CustomButtonStyle" parent="Widget.AppCompat.Button">
+        <item name="android:background">@color/button_gray</item>
+        <item name="android:textColor">@color/text_white</item>
+    </style>
+
+</resources>
