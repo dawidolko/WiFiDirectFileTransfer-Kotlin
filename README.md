@@ -27,7 +27,9 @@ Before running this project, make sure you have the following:
 1. **Clone the Repository**:
    ```bash
    git clone https://github.com/dawidolko/WiFiDirect-FileTransfer.git
+   
    cd WiFiDirect-FileTransfer
+   ```
 
 ![project](img/img1.png)
 
