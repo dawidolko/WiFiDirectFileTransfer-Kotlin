@@ -13,22 +13,11 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.gson.Gson
 import pl.dawidolko.wifidirect.HistoryActivity.HistoryItem
 import pl.dawidolko.wifidirect.R
-import java.io.BufferedReader
-import java.io.File
-import java.io.FileOutputStream
-import java.io.InputStreamReader
+import java.io.*
 import java.net.ServerSocket
 import java.net.SocketException
 import java.text.SimpleDateFormat
 import java.util.*
-
-/**
- * @Author: dawidolko
- * @Date: 26.11.2024
- *
- * @Desc: Activity odpowiedzialne za odbieranie plików przy użyciu Wi-Fi Direct.
- * Obsługuje połączenie serwera, zapis pliku w folderze "Download" oraz wyświetlanie stanu odbierania.
- */
 
 class FileReceiverActivity : AppCompatActivity() {
 
@@ -41,8 +30,6 @@ class FileReceiverActivity : AppCompatActivity() {
     private val controlPort = 8888
     private var controlServerSocket: ServerSocket? = null
 
-    private val clientIpAddresses = mutableListOf<String>()
-
     private var manager: WifiP2pManager? = null
     private var channel: WifiP2pManager.Channel? = null
 
@@ -50,7 +37,6 @@ class FileReceiverActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_file_receiver)
 
-        // Inicjalizacja przycisków i widoków
         val btnStartReceive = findViewById<Button>(R.id.btnStartReceive)
         val btnStopReceive = findViewById<Button>(R.id.btnStopReceive)
         val btnOpenDownloads = findViewById<Button>(R.id.btnOpenDownloads)
@@ -60,7 +46,6 @@ class FileReceiverActivity : AppCompatActivity() {
             setDisplayHomeAsUpEnabled(true)
         }
 
-        // Inicjalizacja managera i kanału
         manager = getSystemService(WIFI_P2P_SERVICE) as WifiP2pManager
         channel = manager?.initialize(this, mainLooper, null)
 
@@ -75,7 +60,6 @@ class FileReceiverActivity : AppCompatActivity() {
             }
         }
 
-        // **Poprawka: Przypisanie OnClickListener do btnStartReceive**
         btnStartReceive.setOnClickListener {
             if (isReceiving) {
                 Toast.makeText(this, "Already listening for connections.", Toast.LENGTH_SHORT).show()
@@ -85,12 +69,10 @@ class FileReceiverActivity : AppCompatActivity() {
             Log.d("FileReceiver", "Start Receiving clicked")
         }
 
-        // Funkcja zatrzymująca odbieranie pliku
         btnStopReceive.setOnClickListener {
             stopReceiving()
         }
 
-        // Funkcja otwierająca folder pobranych plików
         btnOpenDownloads.setOnClickListener {
             openDownloadsFolder()
         }
@@ -107,30 +89,54 @@ class FileReceiverActivity : AppCompatActivity() {
                 serverSocket = ServerSocket(port)
                 Log.d("FileReceiver", "Waiting for connection on port $port")
                 val clientSocket = serverSocket!!.accept()
+
                 val inputStream = clientSocket.getInputStream()
+                val outputStream = clientSocket.getOutputStream()
 
-                // Ścieżka zapisu pliku
+                val metadataReader = BufferedReader(InputStreamReader(inputStream))
+                val metadataWriter = BufferedWriter(OutputStreamWriter(outputStream))
+
+                val metadataLine = metadataReader.readLine()
+                val fileName = metadataLine.substringAfter("FILENAME:").substringBefore("|FILESIZE:")
+                val fileSizeStr = metadataLine.substringAfter("FILESIZE:")
+                val fileSize = fileSizeStr.toLongOrNull() ?: 0L
+
                 val downloadsDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
-                val formattedName = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
-                val newFileName = "${formattedName}_received_file.jpg"
-                val file = File(downloadsDir, newFileName)
+                val file = File(downloadsDir, fileName)
 
-                Log.d("FileReceiver", "Saving received file to: ${file.absolutePath}")
-                val outputStream = FileOutputStream(file)
-                inputStream.copyTo(outputStream)
-                outputStream.close()
+                var alreadyReceivedBytes = 0L
+                if (file.exists()) {
+                    alreadyReceivedBytes = file.length()
+                }
+
+                metadataWriter.write("OFFSET:$alreadyReceivedBytes\n")
+                metadataWriter.flush()
+
+                Log.d("FileReceiver", "Resuming from offset $alreadyReceivedBytes for file $fileName")
+
+                val fileOutputStream = FileOutputStream(file, true)
+
+                val buffer = ByteArray(4096)
+                var totalReceived = alreadyReceivedBytes
+                while (true) {
+                    val bytesRead = inputStream.read(buffer)
+                    if (bytesRead == -1) break
+                    fileOutputStream.write(buffer, 0, bytesRead)
+                    totalReceived += bytesRead
+                }
+
+                fileOutputStream.close()
                 inputStream.close()
                 clientSocket.close()
 
-                // Dodanie do historii
                 val timestamp = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(Date())
-                val historyItem = HistoryItem(newFileName, timestamp, false) // false - odebrany
+                val historyItem = HistoryItem(fileName, timestamp, false)
                 saveHistoryItem(historyItem)
 
-                // Powiadomienie o sukcesie
                 runOnUiThread {
                     Toast.makeText(this, "File received: ${file.name}.", Toast.LENGTH_SHORT).show()
                 }
+
             } catch (e: SocketException) {
                 Log.e("FileReceiver", "SocketException: ${e.message}")
                 runOnUiThread {
@@ -201,7 +207,6 @@ class FileReceiverActivity : AppCompatActivity() {
                     val reader = BufferedReader(InputStreamReader(clientSocket.getInputStream()))
                     val clientIp = reader.readLine()
                     Log.d("ControlServer", "Odebrano adres IP klienta: $clientIp")
-                    // Zapisz clientIp do SharedPreferences
                     val sharedPreferences = getSharedPreferences("client_info", MODE_PRIVATE)
                     val editor = sharedPreferences.edit()
                     editor.putString("client_ip", clientIp)

@@ -40,8 +40,11 @@ class HistoryActivity : AppCompatActivity() {
 
         if (historyList.isEmpty()) {
             findViewById<TextView>(R.id.tvEmptyMessage).visibility = View.VISIBLE
+            // Możesz ukryć RecyclerView jeśli chcesz:
+            // findViewById<RecyclerView>(R.id.rvHistoryList).visibility = View.GONE
         } else {
             findViewById<TextView>(R.id.tvEmptyMessage).visibility = View.GONE
+            // findViewById<RecyclerView>(R.id.rvHistoryList).visibility = View.VISIBLE
         }
 
         adapter = TransferHistoryAdapter(historyList)

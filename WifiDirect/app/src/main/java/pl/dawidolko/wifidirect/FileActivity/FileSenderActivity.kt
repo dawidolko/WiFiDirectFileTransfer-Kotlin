@@ -4,49 +4,36 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.database.Cursor
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
+import android.provider.OpenableColumns
+import android.util.Log
+import android.view.MenuItem
 import android.widget.Button
 import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import com.google.gson.Gson
+import pl.dawidolko.wifidirect.HistoryActivity.HistoryItem
 import pl.dawidolko.wifidirect.R
-import java.io.OutputStream
+import java.io.*
+import java.net.Inet4Address
 import java.net.InetSocketAddress
+import java.net.NetworkInterface
 import java.net.Socket
 import java.text.SimpleDateFormat
 import java.util.*
-import android.net.wifi.p2p.WifiP2pInfo
 import android.net.wifi.p2p.WifiP2pManager
-import android.os.Build
-import android.util.Log
-import android.view.MenuItem
-import androidx.activity.result.ActivityResultLauncher
-import androidx.activity.result.contract.ActivityResultContracts
-import com.google.gson.Gson
-import pl.dawidolko.wifidirect.HistoryActivity.HistoryItem
-import java.io.BufferedReader
-import java.io.File
-import java.io.FileReader
-import java.net.Inet4Address
-import java.net.NetworkInterface
-import androidx.core.content.ContextCompat
-import androidx.core.app.ActivityCompat
-import java.io.BufferedWriter
-import java.io.OutputStreamWriter
-
-/**
- * @Author: dawidolko
- * @Date: 26.11.2024
- *
- * @Desc: Activity odpowiedzialne za wysyłanie plików do innych urządzeń przy użyciu Wi-Fi Direct.
- * Zarządza wyborem pliku, progresją wysyłania oraz zapisaniem danych o transferze w historii.
- */
 
 class FileSenderActivity : AppCompatActivity(), IpAddressCallback {
 
     private var fileUri: Uri? = null
+    private var fileName_: String = "file"
     private var port = 8778
     private val SOCKET_TIMEOUT = 5000
 
@@ -84,7 +71,6 @@ class FileSenderActivity : AppCompatActivity(), IpAddressCallback {
         progressBar = findViewById(R.id.progressBar)
         progressText = findViewById(R.id.progressText)
 
-        // **Dodana inicjalizacja managera i kanału**
         manager = getSystemService(WIFI_P2P_SERVICE) as WifiP2pManager
         channel = manager?.initialize(this, mainLooper, null)
 
@@ -108,10 +94,16 @@ class FileSenderActivity : AppCompatActivity(), IpAddressCallback {
         filePickerLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == RESULT_OK && result.data != null) {
                 fileUri = result.data?.data
-                val fileSize = contentResolver.openFileDescriptor(fileUri!!, "r")?.statSize ?: 0
-                tvSelectedFile.text =
-                    "Selected file: ${fileUri?.lastPathSegment}, Size: ${fileSize / 1024} KB"
-                Toast.makeText(this, "File selected: ${fileUri?.lastPathSegment}", Toast.LENGTH_SHORT).show()
+                if (fileUri != null) {
+                    val fileSize = contentResolver.openFileDescriptor(fileUri!!, "r")?.statSize ?: 0
+                    fileName_ = getFileNameFromUri(fileUri!!) ?: "file"
+                    val sizeKB = fileSize / 1024
+                    findViewById<TextView>(R.id.tvSelectedFile).text =
+                        "Selected file: $fileName_, Size: ${sizeKB} KB"
+                    Toast.makeText(this, "File selected: $fileName_", Toast.LENGTH_SHORT).show()
+                } else {
+                    Toast.makeText(this, "No file selected.", Toast.LENGTH_SHORT).show()
+                }
             } else {
                 Toast.makeText(this, "No file selected.", Toast.LENGTH_SHORT).show()
             }
@@ -128,16 +120,31 @@ class FileSenderActivity : AppCompatActivity(), IpAddressCallback {
 
         btnPauseResume.setOnClickListener {
             if (!isPaused) {
-                // Wstrzymaj transfer
                 isPaused = true
                 btnPauseResume.text = "Resume"
             } else {
-                // Wznów transfer
                 isPaused = false
                 btnPauseResume.text = "Pause"
-                // Jeśli pętla jest zatrzymana, teraz się zwolni sama
             }
         }
+    }
+
+    private fun getFileNameFromUri(uri: Uri): String? {
+        var name: String? = null
+        val cursor: Cursor? = contentResolver.query(uri, null, null, null, null)
+        cursor?.use {
+            if (it.moveToFirst()) {
+                val nameIndex = it.getColumnIndex(OpenableColumns.DISPLAY_NAME)
+                if (nameIndex != -1) {
+                    name = it.getString(nameIndex)
+                }
+            }
+        }
+        // Jeśli nie uda się pobrać z OpenableColumns, spróbuj lastPathSegment
+        if (name == null) {
+            name = uri.lastPathSegment
+        }
+        return name
     }
 
     private fun getReceiverIpAddress(callback: IpAddressCallback) {
@@ -154,8 +161,6 @@ class FileSenderActivity : AppCompatActivity(), IpAddressCallback {
 
             if (groupOwnerAddress != null && localIpAddress != null) {
                 if (isGroupOwner) {
-                    // To urządzenie jest Właścicielem Grupy
-                    // Pobierz adres IP klienta z SharedPreferences
                     val sharedPreferences = getSharedPreferences("client_info", MODE_PRIVATE)
                     targetIpAddress = sharedPreferences.getString("client_ip", null)
                     Log.d("FileSender", "Urządzenie jest Właścicielem Grupy. Adres IP klienta: $targetIpAddress")
@@ -167,7 +172,6 @@ class FileSenderActivity : AppCompatActivity(), IpAddressCallback {
                         return@requestConnectionInfo
                     }
                 } else {
-                    // To urządzenie jest klientem
                     targetIpAddress = groupOwnerAddress
                     Log.d("FileSender", "Urządzenie jest klientem. Adres IP Właściciela Grupy: $targetIpAddress")
                 }
@@ -200,63 +204,52 @@ class FileSenderActivity : AppCompatActivity(), IpAddressCallback {
         return null
     }
 
-    private fun getClientIpAddressFromArp(): String? {
-        try {
-            val arpFile = File("/proc/net/arp")
-            if (arpFile.exists()) {
-                val bufferedReader = BufferedReader(FileReader(arpFile))
-                var line: String?
-                bufferedReader.readLine() // Pomiń pierwszy wiersz (nagłówki kolumn)
-                while (bufferedReader.readLine().also { line = it } != null) {
-                    val splitted = line?.split("\\s+".toRegex())?.toTypedArray()
-                    if (splitted != null && splitted.size >= 4) {
-                        val ip = splitted[0]
-                        val mac = splitted[3]
-                        if (mac.matches("..:..:..:..:..:..".toRegex())) {
-                            return ip
-                        }
-                    }
-                }
-                bufferedReader.close()
-            }
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
-        return null
-    }
-
     override fun onIpAddressReceived(ipAddress: String) {
         Thread {
             try {
                 val socket = Socket()
                 socket.connect(InetSocketAddress(ipAddress, port), SOCKET_TIMEOUT)
-
                 val outputStream: OutputStream = socket.getOutputStream()
-                var inputStream = contentResolver.openInputStream(fileUri!!)
+                val inputStream = contentResolver.openInputStream(fileUri!!)
 
                 val fileSize = inputStream?.available() ?: 0
-                var bytesTransferred = 0
+
+                // Wysyłanie metadanych do odbiorcy:
+                val metadataWriter = BufferedWriter(OutputStreamWriter(outputStream))
+                val metadataReader = BufferedReader(InputStreamReader(socket.getInputStream()))
+
+                val metadataMessage = "FILENAME:$fileName_|FILESIZE:$fileSize\n"
+                metadataWriter.write(metadataMessage)
+                metadataWriter.flush()
+
+                val offsetResponse = metadataReader.readLine()
+                val offset = if (offsetResponse.startsWith("OFFSET:")) {
+                    offsetResponse.substringAfter("OFFSET:").toLongOrNull() ?: 0L
+                } else 0L
+
+                if (offset > 0) {
+                    inputStream?.skip(offset)
+                }
+
+                var bytesTransferred = offset.toInt()
                 val buffer = ByteArray(4096)
 
                 runOnUiThread {
                     progressBar.visibility = ProgressBar.VISIBLE
                     progressText.visibility = TextView.VISIBLE
-                    btnPauseResume.visibility = Button.VISIBLE // Pokaż przycisk pauzy/wznowienia
-                    progressBar.progress = 0
-                    progressText.text = "0%"
+                    btnPauseResume.visibility = Button.VISIBLE
+                    val progress = if (fileSize > 0) (bytesTransferred * 100 / fileSize) else 0
+                    progressBar.progress = progress
+                    progressText.text = "$progress%"
                 }
 
                 var bytesRead: Int
                 loop@ while (inputStream?.read(buffer).also { bytesRead = it ?: -1 } != -1) {
 
-                    // Sprawdź czy pauza
                     while (isPaused) {
-                        // Wstrzymujemy pętlę dopóki isPaused == true
                         Thread.sleep(100)
-                        // Gdy isPaused stanie się false, pętla wyjdzie z while i kontynuuje wysyłanie
                     }
 
-                    // Normalny transfer danych
                     if (bytesRead == -1) break@loop
 
                     outputStream.write(buffer, 0, bytesRead)
@@ -273,19 +266,15 @@ class FileSenderActivity : AppCompatActivity(), IpAddressCallback {
                 outputStream.close()
                 socket.close()
 
-                val fileName_ = fileUri?.lastPathSegment ?: "file"
-                val formattedName = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
-                val newFileName = "${fileName_}_$formattedName"
-
                 val timestamp = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(Date())
-                val historyItem = HistoryItem(newFileName, timestamp, true) // true - sent
+                val historyItem = HistoryItem(fileName_, timestamp, true)
                 saveHistoryItem(historyItem)
 
                 runOnUiThread {
                     progressBar.visibility = ProgressBar.GONE
                     progressText.visibility = TextView.GONE
                     btnPauseResume.visibility = Button.GONE
-                    Toast.makeText(this, "File '$newFileName' sent successfully!", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "File '$fileName_' sent successfully!", Toast.LENGTH_SHORT).show()
                 }
             } catch (e: Exception) {
                 runOnUiThread {
@@ -303,10 +292,8 @@ class FileSenderActivity : AppCompatActivity(), IpAddressCallback {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == 1) {
             if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                // Uprawnienie przyznane
                 Toast.makeText(this, "Location permission granted", Toast.LENGTH_SHORT).show()
             } else {
-                // Uprawnienie odmówione
                 Toast.makeText(this, "Location permission is required for Wi-Fi Direct", Toast.LENGTH_SHORT).show()
             }
         }
