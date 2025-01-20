@@ -31,9 +31,44 @@ Before running this project, make sure you have the following:
    cd WiFiDirect-FileTransfer
    ```
 
-![project](img/img1.png)
+- Menu main
 
-![project](img/LogoApp-second.webp)
+<img src="img/img1.png" alt="Menu główne" width="50%">
+
+- Menu Wifi Direct
+
+<img src="img/img2.png" alt="Menu Wifi Direct" width="50%">
+
+- File History
+
+<img src="img/img3.png" alt="File History" width="50%">
+
+- Trusted Devices
+
+<img src="img/img4.png" alt="Trusted Devices" width="50%">
+
+- File Receiver
+
+<img src="img/img5.png" alt="File Receiver" width="50%">
+
+- Check Location
+
+<img src="img/img7.png" alt="Check Location" width="50%">
+
+- Settings Wifi direct
+
+<img src="img/img8.png" alt="Settings Wifi direct" width="50%">
+
+- Menu main
+
+<img src="img/img1.png" alt="Menu główne" width="50%">
+
+## Video on youtube:
+[Look like working app](videos/ApplicationTest.mp4)
+
+<a href="https://youtube.com/shorts/CwdRK33g_8U?feature=share">
+  <img src="videos/videoPhoto.png" width="50%" />
+</a>
 
 # Project directory tree structure
 
