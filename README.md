@@ -9,9 +9,6 @@ A lightweight Android application enabling seamless file sharing and transfer vi
 - **Transfer History**: View history of sent and received files.
 - **Battery Awareness**: Optimized for low-battery conditions with monitoring.
 
-## Screenshots
-(*Add relevant screenshots of your app interface here.*)
-
 ---
 
 ## Prerequisites
