@@ -1,3 +1,5 @@
+name: wifidirect-project
+
 services:
   build:
     build:
