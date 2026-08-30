@@ -1,0 +1,16 @@
+services:
+  build:
+    build:
+      context: ../../
+      dockerfile: .tools/docker/Dockerfile
+    container_name: wifidirect-build
+    working_dir: /workspace/WifiDirect
+    volumes:
+      - ../../:/workspace
+      # Cache Gradle'a przezywa restart kontenera — bez tego kazde
+      # budowanie pobiera zaleznosci od nowa.
+      - gradle-cache:/root/.gradle
+    command: ./gradlew assembleDebug
+
+volumes:
+  gradle-cache:
