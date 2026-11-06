@@ -1,3 +1,7 @@
+<p align="center">
+  <a href="https://github.com/dawidolko/WiFiDirectFileTransfer-Kotlin"><img src="docs/readme/banner.webp" alt="WiFiDirect File Transfer: mobile. Two phones, no network" width="100%"></a>
+</p>
+
 # WiFiDirect File Transfer
 
 > 📱 **Two phones, no network** — an Android app that sends files over Wi-Fi Direct, with no router, no account and no cloud in between
@@ -13,6 +17,8 @@ Around the transfer itself sit the things that make it usable twice: a history o
 ![License](https://img.shields.io/badge/License-MIT-green)
 
 **Demo:** [watch on YouTube](https://youtube.com/shorts/CwdRK33g_8U?feature=share) · [local recording](videos/ApplicationTest.mp4)
+
+**[Video](https://www.youtube.com/shorts/CwdRK33g_8U)** · [Screenshots](#️-screenshots) · [Getting started](#-getting-started)
 
 ---
 
@@ -121,3 +127,11 @@ WiFiDirectFileTransfer-Kotlin/
 ## 📄 License
 
 MIT © [Dawid Olko](https://dawidolko.pl)
+
+---
+
+## 👨‍💻 Author
+
+**Dawid Olko** · Fullstack / AI Developer
+
+[Portfolio](https://olkodawid.dawidolko.pl) · [CV](https://cv.dawidolko.pl) · [LinkedIn](https://www.linkedin.com/in/dawidolko/) · [GitHub](https://github.com/dawidolko)
