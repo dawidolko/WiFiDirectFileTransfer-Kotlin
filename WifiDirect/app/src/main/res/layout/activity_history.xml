@@ -20,7 +20,9 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="16dp"/>
 
-    <!-- Nagłówek listy historii -->
+    <!--
+      History list header
+    -->
     <TextView
         android:id="@+id/tvHeader"
         android:layout_width="0dp"
@@ -36,7 +38,6 @@
         android:layout_marginTop="16dp"
         android:gravity="center"/>
 
-    <!-- Wiadomość o pustej liście -->
     <TextView
         android:id="@+id/tvEmptyMessage"
         android:layout_width="wrap_content"
@@ -51,7 +52,6 @@
         android:layout_marginTop="20dp"
         android:gravity="center" />
 
-    <!-- Lista historii plików -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvHistoryList"
         android:layout_width="0dp"

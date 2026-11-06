@@ -20,7 +20,7 @@ import pl.dawidolko.wifidirect.receivers.BatteryBroadcastReceiver
  * @Author: dawidolko
  * @Date: 26.11.2024
  *
- * @Desc: Główna aktywność aplikacji, zawiera menu i podstawową nawigację między sekcjami aplikacji.
+ * @Desc: Main app activity with the menu and basic navigation between sections.
  */
 
 class MainActivity : AppCompatActivity() {
@@ -35,22 +35,18 @@ class MainActivity : AppCompatActivity() {
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
 
-        // Inicjalizacja odbiornika
         val wifiP2pManager = getSystemService(WIFI_P2P_SERVICE) as WifiP2pManager
         val wifiP2pChannel = wifiP2pManager.initialize(this, mainLooper, null)
         batteryLevelReceiver = BatteryBroadcastReceiver(this, wifiP2pManager, wifiP2pChannel)
 
-        // Inicjalizacja przycisków
         val grantPermissionsButton = findViewById<Button>(R.id.grantPermissionsButton)
         val checkLocationButton = findViewById<Button>(R.id.checkLocationButton)
         val wifiDirectButton = findViewById<Button>(R.id.wifiDirectButton)
 
-        // Obsługa przycisku Grant all permissions
         grantPermissionsButton.setOnClickListener {
             checkAndRequestPermissions()
         }
 
-        // Obsługa przycisku Check location
         checkLocationButton.setOnClickListener {
             if (arePermissionsGranted()) {
                 getCurrentLocationAndShow()
@@ -59,9 +55,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        // Obsługa przycisku Wi-Fi Direct
         wifiDirectButton.setOnClickListener {
-            // Przejście do aktywności Wi-Fi Direct
             val intent = Intent(this, WifiDirectActivity::class.java)
             startActivity(intent)
         }

@@ -4,21 +4,21 @@ package pl.dawidolko.wifidirect.HistoryActivity
  * @Author: dawidolko
  * @Date: 26.11.2024
  *
- * @Desc: Klasa odpowiedzialna za zarządzanie historią transferów plików, w tym zapisywanie i odczytywanie
- * z pamięci lokalnej aplikacji.
+ * @Desc: Manages the file transfer history, saving it to and reading it from
+ * the app's local storage.
  */
 
 object TransferHistoryManager {
 
-    // Lista przechowująca historię przesyłanych i odebranych plików
+    /*
+     * List holding the history of sent and received files
+     */
     private val historyList = mutableListOf<HistoryItem>()
 
-    // Funkcja dodająca plik do historii
     fun addHistoryItem(item: HistoryItem) {
         historyList.add(item)
     }
 
-    // Funkcja do uzyskania wszystkich danych historii
     fun getTransferHistory(): List<HistoryItem> {
         return historyList
     }

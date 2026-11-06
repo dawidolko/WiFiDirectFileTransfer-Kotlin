@@ -23,29 +23,27 @@ class HistoryActivity : AppCompatActivity() {
         Log.d("HistoryActivity", "onCreate started")
         setContentView(R.layout.activity_history)
 
-        // Konfiguracja ActionBar
         supportActionBar?.apply {
             title = "History"
             setDisplayHomeAsUpEnabled(true)
         }
 
-        // Inicjalizacja elementów UI
         rvHistoryList = findViewById(R.id.rvHistoryList)
         tvEmptyMessage = findViewById(R.id.tvEmptyMessage)
 
-        // Konfiguracja RecyclerView
         rvHistoryList.layoutManager = LinearLayoutManager(this)
         adapter = TransferHistoryAdapter(emptyList())
         rvHistoryList.adapter = adapter
 
-        // Załaduj dane
         loadHistory()
     }
 
     override fun onResume() {
         super.onResume()
         Log.d("HistoryActivity", "onResume started")
-        // Ponowne załadowanie danych przy wznowieniu aktywności
+        /*
+         * Reload the data when the activity resumes
+         */
         loadHistory()
     }
 

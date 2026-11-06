@@ -6,7 +6,9 @@
     android:background="@color/background_black"
     android:padding="16dp">
 
-    <!-- Nagłówek listy historii -->
+    <!--
+      History list header
+    -->
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -16,7 +18,6 @@
         android:textStyle="bold"
         android:layout_marginBottom="12dp" />
 
-    <!-- Wiadomość o pustej liście -->
     <TextView
         android:id="@+id/tvEmptyMessage"
         android:layout_width="match_parent"
@@ -28,7 +29,6 @@
         android:layout_marginBottom="16dp"
         android:visibility="gone" />
 
-    <!-- Lista historii plików -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvHistoryList"
         android:layout_width="match_parent"

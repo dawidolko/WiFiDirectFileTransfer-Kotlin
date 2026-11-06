@@ -49,7 +49,6 @@ class FileReceiverActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_file_receiver)
 
-        // Inicjalizacja elementów UI
         btnCreateGroup = findViewById(R.id.btnCreateGroup)
         btnRemoveGroup = findViewById(R.id.btnRemoveGroup)
         btnStartReceive = findViewById(R.id.btnStartReceive)
@@ -59,7 +58,6 @@ class FileReceiverActivity : BaseActivity() {
         ivImage = findViewById(R.id.ivImage)
         tvLog = findViewById(R.id.tvLog)
 
-        // Ustawienia przycisków
         btnCreateGroup.setOnClickListener { createGroup() }
         btnRemoveGroup.setOnClickListener { removeGroup() }
         btnStartReceive.setOnClickListener { fileReceiverViewModel.startListener() }
@@ -75,7 +73,6 @@ class FileReceiverActivity : BaseActivity() {
             isTransferPaused = !isTransferPaused
         }
 
-        // Inicjalizacja urządzenia i wydarzeń
         initDevice()
         initEvent()
 
@@ -83,7 +80,9 @@ class FileReceiverActivity : BaseActivity() {
         wifiP2pManager = getSystemService(Context.WIFI_P2P_SERVICE) as WifiP2pManager
         wifiP2pChannel = wifiP2pManager.initialize(this, mainLooper, null)
 
-        // Sprawdzanie istniejącej grupy
+        /*
+         * Check for an existing group
+         */
         if (ActivityCompat.checkSelfPermission(
                 this,
                 Manifest.permission.ACCESS_FINE_LOCATION
@@ -105,7 +104,6 @@ class FileReceiverActivity : BaseActivity() {
             log("Missing required permissions for group info.")
         }
 
-        // Ustawienia ActionBar
         supportActionBar?.apply {
             title = "File Receiver"
             setDisplayHomeAsUpEnabled(true)
@@ -148,7 +146,10 @@ class FileReceiverActivity : BaseActivity() {
                         btnPauseResume.visibility = View.GONE
                         log("File transfer failed: ${state.throwable.message}")
                     }
-                    else -> { /* Obsługa innych stanów */ }
+                    /*
+                     * Handle other states
+                     */
+                    else -> { }
                 }
             }
         }
@@ -232,7 +233,9 @@ class FileReceiverActivity : BaseActivity() {
                 override fun onSuccess() {
                     showToast("Group created successfully")
                     log("Wi-Fi P2P group created successfully")
-                    // Pobierz szczegóły grupy po jej utworzeniu
+                    /*
+                     * Fetch the group details after it is created
+                     */
                     wifiP2pManager.requestGroupInfo(wifiP2pChannel) { group ->
                         if (group != null) {
                             log("Group details:")

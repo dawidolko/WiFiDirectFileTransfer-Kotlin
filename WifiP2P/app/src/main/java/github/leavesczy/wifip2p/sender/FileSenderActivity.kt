@@ -165,7 +165,6 @@ class FileSenderActivity : BaseActivity() {
         val btnPauseResume = findViewById<Button>(R.id.btnPauseResume)
         btnPauseResume.setOnClickListener {
             if (isTransferPaused) {
-                // Wznowienie transferu
                 resumeTransfer()
                 btnPauseResume.text = "Pause"
             } else {
@@ -203,24 +202,32 @@ class FileSenderActivity : BaseActivity() {
                 dismissLoadingDialog()
                 this@FileSenderActivity.wifiP2pInfo = wifiP2pInfo
 
-                // Zaktualizowanie stanu przycisków
+                /*
+                 * Update the button state
+                 */
                 btnConnect.text = "Connected"
                 btnConnect.isEnabled = false
                 btnSendFile.visibility = View.VISIBLE
                 btnSendFile.isEnabled = true
 
-                // Czyszczenie listy urządzeń po udanym połączeniu
+                /*
+                 * Clear the device list after a successful connection
+                 */
                 wifiP2pDeviceList.clear()
                 deviceAdapter.notifyDataSetChanged()
 
-                // Włączenie przycisków do rozłączania i wyboru pliku
+                /*
+                 * Enable the disconnect and file selection buttons
+                 */
                 btnDisconnect.isEnabled = true
                 btnChooseFile.isEnabled = true
 
                 log("Connection established with group owner: ${wifiP2pInfo.groupOwnerAddress.hostAddress}")
                 log("Group formed: ${wifiP2pInfo.groupFormed}, Is Group Owner: ${wifiP2pInfo.isGroupOwner}")
 
-                // Wyświetlenie szczegółów połączenia
+                /*
+                 * Show the connection details
+                 */
                 val connectionDetails = StringBuilder().apply {
                     append("Group Owner Status: ")
                     append(if (wifiP2pInfo.isGroupOwner) "Group Owner" else "Not Group Owner")
@@ -228,7 +235,10 @@ class FileSenderActivity : BaseActivity() {
                 }
                 tvConnectionStatus.text = connectionDetails
 
-                isConnectingLogged = true // Ustawienie flagi, aby uniknąć wielokrotnego logowania
+                /*
+                 * Set the flag to avoid logging repeatedly
+                 */
+                isConnectingLogged = true
             }
         }
 
@@ -237,7 +247,9 @@ class FileSenderActivity : BaseActivity() {
             log("Disconnection event triggered")
             log("Disconnected from the group")
 
-            // Resetowanie przycisków i widoczności
+            /*
+             * Reset the buttons and visibility
+             */
             btnConnect.text = "Connect"
             btnConnect.isEnabled = true
             btnSendFile.visibility = View.GONE
@@ -245,16 +257,16 @@ class FileSenderActivity : BaseActivity() {
             btnDisconnect.isEnabled = false
             btnChooseFile.isEnabled = false
 
-            // Czyszczenie listy urządzeń i stanu połączenia
+            /*
+             * Clear the device list and connection state
+             */
             wifiP2pDeviceList.clear()
             deviceAdapter.notifyDataSetChanged()
             wifiP2pInfo = null
             tvConnectionStatus.text = null
 
-            // Resetowanie flagi logowania
             isConnectingLogged = false
 
-            // Komunikat dla użytkownika
             showToast("Disconnected from the group")
         }
 
@@ -278,7 +290,10 @@ class FileSenderActivity : BaseActivity() {
 
             if (wifiP2pDeviceList.isNotEmpty() && !isConnecting) {
                 val firstDevice = wifiP2pDeviceList.first()
-                isConnecting = true // Zabezpieczenie przed wielokrotnym wywołaniem
+                /*
+                 * Guard against repeated calls
+                 */
+                isConnecting = true
                 connect(firstDevice)
                 log("Attempting to connect to: ${firstDevice.deviceName}")
             } else if (wifiP2pDeviceList.isEmpty()) {
@@ -316,7 +331,6 @@ class FileSenderActivity : BaseActivity() {
         setContentView(R.layout.activity_file_sender)
         initPauseResumeButton()
         initView()
-        // Sprawdzanie uprawnień
         if (!arePermissionsGranted()) {
             requestPermissions(requiredPermissions, PERMISSION_REQUEST_CODE)
         } else {
@@ -336,10 +350,10 @@ class FileSenderActivity : BaseActivity() {
         tvTrustedDevices = findViewById(R.id.tvTrustedDevices)
         btnPauseResume.setOnClickListener {
             if (isTransferPaused) {
-                resumeTransfer() // wznowienie transferu
+                resumeTransfer()
                 btnPauseResume.text = "Pause"
             } else {
-                pauseTransfer() // zatrzymanie transferu
+                pauseTransfer()
                 btnPauseResume.text = "Resume"
             }
             isTransferPaused = !isTransferPaused
@@ -373,13 +387,11 @@ class FileSenderActivity : BaseActivity() {
             btnSendFile.isEnabled = false
             showToast("File is being sent...")
         }
-        // Dodane sprawdzenie stanu Wi-Fi Direct
         checkWifiP2pState()
     }
 
     private val PERMISSION_REQUEST_CODE = 1001
 
-    // Sprawdza, czy wszystkie uprawnienia zostały przyznane
     private fun arePermissionsGranted(): Boolean {
         return requiredPermissions.all { permission ->
             ActivityCompat.checkSelfPermission(this, permission) == PackageManager.PERMISSION_GRANTED
@@ -392,7 +404,9 @@ class FileSenderActivity : BaseActivity() {
     }
 
     private fun checkWifiP2pState() {
-        // Sprawdzenie uprawnień w zależności od wersji Androida
+        /*
+         * Check permissions depending on the Android version
+         */
         val missingPermissions = mutableListOf<String>()
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             if (ActivityCompat.checkSelfPermission(
@@ -421,7 +435,9 @@ class FileSenderActivity : BaseActivity() {
             return
         }
 
-        // Jeśli uprawnienia są dostępne, sprawdzamy stan Wi-Fi P2P
+        /*
+         * If the permissions are available, check the Wi-Fi P2P state
+         */
         wifiP2pManager.requestGroupInfo(wifiP2pChannel) { group ->
             if (group != null) {
                 log("Wi-Fi P2P group available: ${group.networkName}")
@@ -451,7 +467,6 @@ class FileSenderActivity : BaseActivity() {
     }
 
 
-    // Stała dla kodu żądania uprawnień
     companion object {
         private const val PERMISSION_REQUEST_CODE = 1001
     }
@@ -566,7 +581,9 @@ class FileSenderActivity : BaseActivity() {
         wifiP2pManager = mWifiP2pManager
         wifiP2pChannel = mWifiP2pManager.initialize(this, mainLooper, directActionListener)
 
-        // Rejestracja BroadcastReceiver
+        /*
+         * Register the BroadcastReceiver
+         */
         broadcastReceiver = DirectBroadcastReceiver(
             wifiP2pManager = wifiP2pManager,
             wifiP2pChannel = wifiP2pChannel,
@@ -580,7 +597,9 @@ class FileSenderActivity : BaseActivity() {
 
 
     private fun initEvent() {
-        // Uruchamianie kolektora stanu przesyłu plików
+        /*
+         * Start the file transfer state collector
+         */
         lifecycleScope.launch {
             fileSenderViewModel.fileTransferViewState.collect { state ->
                 when (state) {
@@ -603,7 +622,7 @@ class FileSenderActivity : BaseActivity() {
                     is FileTransferViewState.Progress -> {
                         progressBar.visibility = View.VISIBLE
                         btnPauseResume.visibility = View.VISIBLE
-                        progressBar.progress = state.progress // ustawienie postępu na podstawie wartości state.progress
+                        progressBar.progress = state.progress
                     }
                     is FileTransferViewState.Success -> {
                         dismissLoadingDialog()
@@ -650,7 +669,10 @@ class FileSenderActivity : BaseActivity() {
             }
 
             override fun onFailure(reason: Int) {
-                isAlreadyConnecting = false // Reset flagi w przypadku niepowodzenia
+                /*
+                 * Reset the flag on failure
+                 */
+                isAlreadyConnecting = false
                 when (reason) {
                     WifiP2pManager.BUSY -> log("Connection failed: Wi-Fi P2P Manager is busy")
                     WifiP2pManager.ERROR -> log("Connection failed: Internal error")

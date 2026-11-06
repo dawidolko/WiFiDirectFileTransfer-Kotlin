@@ -15,8 +15,8 @@ import pl.dawidolko.wifidirect.TrustedDevicesActivity.TrustedDevicesActivity
  * @Author: dawidolko
  * @Date: 26.11.2024
  *
- * @Desc: Aktywność centralna dla funkcji Wi-Fi Direct. Obsługuje nawigację do modułów wysyłania,
- * odbierania plików, zarządzania zaufanymi urządzeniami oraz historii.
+ * @Desc: Central activity for Wi-Fi Direct features. Handles navigation to the
+ * sending, receiving, trusted devices and history modules.
  */
 
 class WifiDirectActivity : AppCompatActivity() {
@@ -25,52 +25,68 @@ class WifiDirectActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_wifi_direct)
 
-        // Ustawienie strzałki wstecz w ActionBar
+        /*
+         * Enable the back arrow in the ActionBar
+         */
         supportActionBar?.apply {
             title = "Menu Wifi Direct"
             setDisplayHomeAsUpEnabled(true)
         }
 
-        // Inicjalizacja przycisków
         val btnSender = findViewById<Button>(R.id.btnSender)
         val btnReceiver = findViewById<Button>(R.id.btnReceiver)
         val btnWifiDirect = findViewById<Button>(R.id.btnWifiDirect)
         val btnTrustedDevices = findViewById<Button>(R.id.btnTrustedDevices)
         val btnHistoryFile = findViewById<Button>(R.id.btnHistoryFile)
 
-        // Obsługa przycisku "Send File" – przejście do FileSenderActivity
+        /*
+         * Handle the "Send File" button - open FileSenderActivity
+         */
         btnSender.setOnClickListener {
             val intent = Intent(this, FileSenderActivity::class.java)
             startActivity(intent)
         }
 
-        // Obsługa przycisku "Receive File" – przejście do FileReceiverActivity
+        /*
+         * Handle the "Receive File" button - open FileReceiverActivity
+         */
         btnReceiver.setOnClickListener {
             val intent = Intent(this, FileReceiverActivity::class.java)
             startActivity(intent)
         }
 
-        // Obsługa przycisku "Wi-Fi Direct Settings" – przejście do ustawień Wi-Fi Direct
+        /*
+         * Handle the "Wi-Fi Direct Settings" button - open the Wi-Fi Direct settings
+         */
         btnWifiDirect.setOnClickListener {
-            val intent = Intent(Settings.ACTION_WIFI_IP_SETTINGS) // Możesz również użyć Settings.ACTION_WIFI_SETTINGS
+            /*
+             * You can also use Settings.ACTION_WIFI_SETTINGS
+             */
+            val intent = Intent(Settings.ACTION_WIFI_IP_SETTINGS)
             startActivity(intent)
         }
 
-        // Obsługa przycisku "Trusted Devices" – przejście do widoku zaufanych urządzeń
+        /*
+         * Handle the "Trusted Devices" button - open the trusted devices view
+         */
         btnTrustedDevices.setOnClickListener {
             val intent = Intent(this, TrustedDevicesActivity::class.java)
             startActivity(intent)
         }
 
-        // Obsługa przycisku "History Files" – przejście do widoku historii plików
+        /*
+         * Handle the "History Files" button - open the file history view
+         */
         btnHistoryFile.setOnClickListener {
-            val intent = Intent(this, HistoryActivity::class.java) // Przejście do HistoryActivity
+            val intent = Intent(this, HistoryActivity::class.java)
             startActivity(intent)
         }
 
     }
 
-    // Obsługa kliknięcia na strzałkę wstecz w ActionBar
+    /*
+     * Handle a click on the back arrow in the ActionBar
+     */
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             android.R.id.home -> {

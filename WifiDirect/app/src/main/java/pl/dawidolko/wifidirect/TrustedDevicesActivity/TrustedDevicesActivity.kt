@@ -81,7 +81,9 @@ class TrustedDevicesActivity : AppCompatActivity() {
             addToTrustedDevices()
         }
 
-        // Sprawdź uprawnienia na starcie
+        /*
+         * Check permissions on startup
+         */
         if (!hasRequiredPermissions()) {
             Log.d("TrustedDevicesActivity", "Not all permissions granted on start. Requesting...")
             requestRequiredPermissions()
@@ -108,7 +110,9 @@ class TrustedDevicesActivity : AppCompatActivity() {
 
     private fun requestRequiredPermissions() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            // Android 13 i wyżej - wymagamy NEARBY_WIFI_DEVICES
+            /*
+             * Android 13 and above - NEARBY_WIFI_DEVICES is required
+             */
             val permissionsToRequest = mutableListOf<String>()
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                 permissionsToRequest.add(Manifest.permission.ACCESS_FINE_LOCATION)
@@ -123,7 +127,9 @@ class TrustedDevicesActivity : AppCompatActivity() {
                 Log.d("TrustedDevicesActivity", "All permissions already granted for Android 13+.")
             }
         } else {
-            // Starsze wersje Androida - wystarczy ACCESS_FINE_LOCATION
+            /*
+             * Older Android versions - ACCESS_FINE_LOCATION is enough
+             */
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                 Log.d("TrustedDevicesActivity", "Requesting ACCESS_FINE_LOCATION for pre-Android 13.")
                 ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), LOCATION_PERMISSION_REQUEST_CODE)
@@ -140,9 +146,13 @@ class TrustedDevicesActivity : AppCompatActivity() {
             if (group != null) {
                 Log.d("WiFiDirect", "Group info: $group")
 
-                // Sprawdź, czy to urządzenie jest GO
+                /*
+                 * Check whether this device is the group owner (GO)
+                 */
                 if (group.isGroupOwner) {
-                    // Jeśli jest GO, używamy listy klientów
+                    /*
+                     * If it is the GO, use the client list
+                     */
                     if (group.clientList.isNotEmpty()) {
                         Log.d("WiFiDirect", "Found ${group.clientList.size} connected devices.")
                         for (device in group.clientList) {
@@ -154,14 +164,18 @@ class TrustedDevicesActivity : AppCompatActivity() {
                         Toast.makeText(this, "No connected devices found", Toast.LENGTH_SHORT).show()
                     }
                 } else {
-                    // Urządzenie jest klientem. Klient nie widzi siebie w clientList.
-                    // Właściciel grupy jest widoczny jako "group.owner".
-                    // Jeśli jestesmy w grupie, to na pewno jest jakiś właściciel.
+                    /*
+                     * This device is a client. A client does not see itself in clientList.
+                     * The group owner is visible as "group.owner".
+                     * If we are in a group, there is certainly an owner.
+                     */
                     val owner = group.owner
                     if (owner != null) {
                         Log.d("WiFiDirect", "Device is a client. Adding group owner as connected device.")
                         Log.d("WiFiDirect", "Owner: ${owner.deviceName}, ${owner.deviceAddress}")
-                        // Dodaj właściciela jakoby był "podłączonym urządzeniem"
+                        /*
+                         * Add the owner as if it were a "connected device"
+                         */
                         addTrustedDeviceFromWifiDirect(owner)
                     } else {
                         Log.d("WiFiDirect", "No owner info found, no connected devices.")

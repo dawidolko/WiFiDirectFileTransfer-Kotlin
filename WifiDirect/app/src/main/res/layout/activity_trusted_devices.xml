@@ -31,7 +31,9 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <!-- Nagłówek listy zaufanych urządzeń -->
+        <!--
+          Trusted devices list header
+        -->
         <TextView
             android:layout_width="338dp"
             android:layout_height="wrap_content"

@@ -9,8 +9,8 @@ services:
     working_dir: /workspace/WifiDirect
     volumes:
       - ../../:/workspace
-      # Cache Gradle'a przezywa restart kontenera — bez tego kazde
-      # budowanie pobiera zaleznosci od nowa.
+      # The Gradle cache survives a container restart - without it every build
+      # downloads dependencies again.
       - gradle-cache:/root/.gradle
     command: ./gradlew assembleDebug
 

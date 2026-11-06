@@ -14,10 +14,10 @@ object TransferHistoryManager {
     }
 
     /**
-     * Dodaje nowy rekord do historii przesyłania plików.
+     * Add a new record to the file transfer history.
      *
-     * @param context Kontekst aplikacji
-     * @param record Rekord do dodania (np. "Sent: file.jpg")
+     * @param context Application context
+     * @param record Record to add (e.g. "Sent: file.jpg")
      */
     fun addTransferRecord(context: Context, record: String) {
         val prefs = getPrefs(context)
@@ -35,9 +35,9 @@ object TransferHistoryManager {
     }
 
     /**
-     * Czyści całą historię przesyłania plików.
+     * Clear the whole file transfer history.
      *
-     * @param context Kontekst aplikacji
+     * @param context Application context
      */
     fun clearHistory(context: Context) {
         val prefs = getPrefs(context)
@@ -45,10 +45,10 @@ object TransferHistoryManager {
     }
 
     /**
-     * Usuwa określony rekord z historii.
+     * Remove the given record from the history.
      *
-     * @param context Kontekst aplikacji
-     * @param record Rekord do usunięcia
+     * @param context Application context
+     * @param record Record to remove
      */
     fun removeTransferRecord(context: Context, record: String) {
         val prefs = getPrefs(context)

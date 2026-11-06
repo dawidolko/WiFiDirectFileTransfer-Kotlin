@@ -18,7 +18,6 @@
         <item name="android:background">@color/color_top_bar</item>
     </style>
 
-    <!-- Styl dla przycisków -->
     <style name="CustomButtonStyle" parent="Widget.AppCompat.Button">
         <item name="android:background">@color/button_gray</item>
         <item name="android:textColor">@color/text_white</item>

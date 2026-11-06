@@ -22,7 +22,9 @@
         android:theme="@style/Theme.AppCompat.DayNight.DarkActionBar"
         android:appComponentFactory="androidx.core.app.CoreComponentFactory">
 
-        <!-- Aktywność SplashActivity jako pierwsza -->
+        <!--
+          SplashActivity runs first
+        -->
         <activity android:name=".SplashActivity"
             android:exported="true">
             <intent-filter>
@@ -31,22 +33,28 @@
             </intent-filter>
         </activity>
 
-        <!-- Główna aktywność aplikacji (MainActivity) -->
+        <!--
+          Main application activity (MainActivity)
+        -->
         <activity android:name=".MainActivity">
-            <!-- Po 3 sekundach SplashActivity przechodzi do MainActivity -->
+            <!--
+              After 3 seconds SplashActivity moves on to MainActivity
+            -->
         </activity>
 
         <activity android:name=".WifiDirectActivity" />
 
-        <!-- Aktywności -->
-
         <activity android:name=".FileActivity.FileSenderActivity" />
         <activity android:name=".FileActivity.FileReceiverActivity" />
 
-        <!-- Aktywność TrustedDevicesActivity (Historia zaufanych urządzeń) -->
+        <!--
+          TrustedDevicesActivity (trusted devices history)
+        -->
         <activity android:name=".TrustedDevicesActivity.TrustedDevicesActivity" />
 
-        <!-- Aktywność HistoryActivity (Historia przesłanych plików) -->
+        <!--
+          HistoryActivity (history of transferred files)
+        -->
         <activity android:name=".HistoryActivity.HistoryActivity" />
 
     </application>

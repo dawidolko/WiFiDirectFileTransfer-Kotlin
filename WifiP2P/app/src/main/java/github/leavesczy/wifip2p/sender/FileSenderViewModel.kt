@@ -55,19 +55,25 @@ class FileSenderViewModel(context: Application) : AndroidViewModel(context) {
                 var objectOutputStream: ObjectOutputStream? = null
                 var fileInputStream: FileInputStream? = null
                 try {
-                    // Przygotowanie pliku do przesyłania
+                    /*
+                     * Prepare the file for transfer
+                     */
                     val cacheFile = saveFileToCacheDir(context = getApplication(), fileUri = fileUri)
                     val fileTransfer = FileTransfer(fileName = cacheFile.name, fileSize = cacheFile.length())
                     _log.emit("Preparing to send file: ${fileTransfer.fileName}, size: ${cacheFile.length()} bytes")
                     _log.emit("Opening socket connection to $ipAddress")
 
-                    // Konfiguracja i otwarcie gniazda
+                    /*
+                     * Configure and open the socket
+                     */
                     socket = Socket()
                     socket.bind(null)
                     socket.connect(InetSocketAddress(ipAddress, Constants.PORT), 30000)
                     _log.emit("Socket connected to $ipAddress on port ${Constants.PORT}")
 
-                    // Konfiguracja strumieni
+                    /*
+                     * Set up the streams
+                     */
                     outputStream = socket.getOutputStream()
                     objectOutputStream = ObjectOutputStream(outputStream)
                     objectOutputStream.writeObject(fileTransfer)
@@ -75,7 +81,9 @@ class FileSenderViewModel(context: Application) : AndroidViewModel(context) {
 
                     fileInputStream = FileInputStream(cacheFile)
 
-                    // Przesyłanie danych
+                    /*
+                     * Transfer the data
+                     */
                     val buffer = ByteArray(1024 * 100) // 100 KB
                     var length: Int
                     while (fileInputStream.read(buffer).also { length = it } > 0) {
@@ -86,13 +94,14 @@ class FileSenderViewModel(context: Application) : AndroidViewModel(context) {
                     _fileTransferViewState.emit(FileTransferViewState.Success(file = cacheFile))
                     _log.emit("File transfer completed. Total bytes sent: ${cacheFile.length()}")
 
-                    // Dodanie do historii
                     TransferHistoryManager.addTransferRecord(
                         getApplication(),
                         "Sent: ${fileTransfer.fileName}"
                     )
 
-                    // Powiadomienie użytkownika o sukcesie
+                    /*
+                     * Notify the user of success
+                     */
                     withContext(Dispatchers.Main) {
                         Toast.makeText(
                             getApplication(),

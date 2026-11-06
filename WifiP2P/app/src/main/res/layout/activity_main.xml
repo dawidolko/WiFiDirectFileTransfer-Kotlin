@@ -7,7 +7,9 @@
     android:background="@color/background_black"
     android:padding="16dp">
 
-    <!-- Logo aplikacji na górze -->
+    <!--
+      App logo at the top
+    -->
     <ImageView
         android:id="@+id/ivLogo"
         android:layout_width="100dp"
@@ -17,7 +19,9 @@
         android:layout_gravity="center"
         android:layout_marginBottom="24dp" />
 
-    <!-- Informacja o włączeniu Wi-Fi, GPS i uprawnieniach -->
+    <!--
+      Note about enabling Wi-Fi, GPS and permissions
+    -->
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -27,7 +31,6 @@
         android:gravity="center"
         android:layout_marginBottom="16dp" />
 
-    <!-- Przycisk do sprawdzenia uprawnień -->
     <Button
         android:id="@+id/btnCheckPermission"
         android:layout_width="match_parent"
@@ -37,7 +40,9 @@
         android:textColor="@color/text_white"
         android:layout_marginBottom="16dp" />
 
-    <!-- Przycisk do wysyłania plików -->
+    <!--
+      File send button
+    -->
     <Button
         android:id="@+id/btnSender"
         android:layout_width="match_parent"
@@ -47,7 +52,9 @@
         android:textColor="@color/text_white"
         android:layout_marginBottom="16dp" />
 
-    <!-- Przycisk do odbierania plików -->
+    <!--
+      File receive button
+    -->
     <Button
         android:id="@+id/btnReceiver"
         android:layout_width="match_parent"
@@ -57,7 +64,9 @@
         android:textColor="@color/text_white"
         android:layout_marginBottom="16dp" />
 
-    <!-- Przycisk historii plików -->
+    <!--
+      File history button
+    -->
     <Button
         android:id="@+id/btnHistory"
         android:layout_width="match_parent"
@@ -67,7 +76,6 @@
         android:textColor="@color/text_white"
         android:layout_marginBottom="16dp" />
 
-    <!-- Przycisk do wyświetlenia lokalizacji -->
     <Button
         android:id="@+id/btnShowLocation"
         android:layout_width="match_parent"

@@ -250,7 +250,9 @@ class MainActivity : BaseActivity() {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (requestCode == LOCATION_PERMISSION_REQUEST_CODE) {
             if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                // Użytkownik przyznał uprawnienia
+                /*
+                 * The user granted the permissions
+                 */
                 getLocation()
             } else {
                 Toast.makeText(this, "Permission denied", Toast.LENGTH_SHORT).show()

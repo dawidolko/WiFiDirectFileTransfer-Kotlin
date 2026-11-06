@@ -11,7 +11,7 @@ import pl.dawidolko.wifidirect.R
  * @Author: dawidolko
  * @Date: 26.11.2024
  *
- * @Desc: Adapter RecyclerView do wyświetlania listy historii transferów plików w HistoryActivity.
+ * @Desc: RecyclerView adapter for the file transfer history list in HistoryActivity.
  */
 
 class TransferHistoryAdapter(private val historyList: List<HistoryItem>) : RecyclerView.Adapter<TransferHistoryAdapter.HistoryViewHolder>() {

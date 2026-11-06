@@ -13,8 +13,8 @@ import androidx.appcompat.app.AppCompatActivity
  * @Author: dawidolko
  * @Date: 26.11.2024
  *
- * @Desc: Aktywność startowa wyświetlana podczas uruchamiania aplikacji.
- * Zawiera ekran powitalny lub logo aplikacji.
+ * @Desc: Startup activity shown while the app launches.
+ * Contains the splash screen or app logo.
  */
 
 class SplashActivity : AppCompatActivity() {
@@ -26,11 +26,12 @@ class SplashActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
 
-        // Inicjalizacja widoków
         logoImageView = findViewById(R.id.logoImageView)
         creditsTextView = findViewById(R.id.creditsTextView)
 
-        // Animacja powiększenia logo
+        /*
+         * Logo zoom animation
+         */
         val scaleAnimation = ScaleAnimation(
             0f, 2f,
             0f, 2f,
@@ -42,14 +43,18 @@ class SplashActivity : AppCompatActivity() {
 
         logoImageView.startAnimation(scaleAnimation)
 
-        // Animacja napisu z kredytami
+        /*
+         * Credits text animation
+         */
         creditsTextView.apply {
             alpha = 0f
             text = "CREATED BY DAWID OLKO/PIOTR SMOŁA"
             animate().alpha(1f).setDuration(1000).setStartDelay(500).start()
         }
 
-        // Opóźnienie 3 sekundy przed przejściem do MainActivity
+        /*
+         * Wait 3 seconds before moving on to MainActivity
+         */
         Handler().postDelayed({
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)

@@ -5,8 +5,8 @@ package pl.dawidolko.wifidirect
  * @Author: dawidolko
  * @Date: 26.11.2024
  *
- * @Desc: Klasa modelu danych reprezentująca zaufane urządzenie zapisane w aplikacji.
- * Przechowuje informacje o nazwie i adresie MAC urządzenia.
+ * @Desc: Data model for a trusted device saved in the app.
+ * Holds the device name and MAC address.
  */
 
 data class TrustedDevice(

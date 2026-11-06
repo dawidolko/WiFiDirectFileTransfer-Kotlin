@@ -14,8 +14,8 @@ import pl.dawidolko.wifidirect.R
  * @Author: dawidolko
  * @Date: 26.11.2024
  *
- * @Desc: Activity odpowiedzialne za wyświetlanie historii transferów plików, zarówno wysłanych, jak i odebranych.
- * Zawiera mechanizmy zarządzania oraz filtrowania historii.
+ * @Desc: Activity showing the history of sent and received file transfers.
+ * Includes history management and filtering.
  */
 
 class HistoryActivity : AppCompatActivity() {
@@ -40,8 +40,10 @@ class HistoryActivity : AppCompatActivity() {
 
         if (historyList.isEmpty()) {
             findViewById<TextView>(R.id.tvEmptyMessage).visibility = View.VISIBLE
-            // Możesz ukryć RecyclerView jeśli chcesz:
-            // findViewById<RecyclerView>(R.id.rvHistoryList).visibility = View.GONE
+            /*
+             * You can hide the RecyclerView if you want:
+             * findViewById<RecyclerView>(R.id.rvHistoryList).visibility = View.GONE
+             */
         } else {
             findViewById<TextView>(R.id.tvEmptyMessage).visibility = View.GONE
             // findViewById<RecyclerView>(R.id.rvHistoryList).visibility = View.VISIBLE
@@ -61,7 +63,9 @@ class HistoryActivity : AppCompatActivity() {
         historyList = historyItems.toMutableList()
     }
 
-    // Obsługa kliknięcia na strzałkę wstecz w ActionBar
+    /*
+     * Handle a click on the back arrow in the ActionBar
+     */
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             android.R.id.home -> {

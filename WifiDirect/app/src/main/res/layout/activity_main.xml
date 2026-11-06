@@ -9,7 +9,9 @@
 
     <!-- Logo aplikacji -->
 
-    <!-- LinearLayout do przycisków -->
+    <!--
+      LinearLayout for the buttons
+    -->
 
     <ImageView
         android:id="@+id/logoImageView"

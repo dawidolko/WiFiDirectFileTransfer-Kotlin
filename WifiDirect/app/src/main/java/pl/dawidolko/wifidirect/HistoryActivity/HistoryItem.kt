@@ -6,12 +6,15 @@ import java.io.Serializable
  * @Author: dawidolko
  * @Date: 26.11.2024
  *
- * @Desc: Klasa modelu danych reprezentująca pojedynczy element historii transferu plików.
- * Przechowuje takie informacje jak nazwa pliku, data transferu oraz status wysyłki/odbioru.
+ * @Desc: Data model for a single file transfer history item.
+ * Holds the file name, transfer date and send/receive status.
  */
 
 data class HistoryItem(
     val fileName: String,
     val timestamp: String,
-    val isSent: Boolean // true - wysłany, false - odebrany
+    /*
+     * true - sent, false - received
+     */
+    val isSent: Boolean
 ) : Serializable

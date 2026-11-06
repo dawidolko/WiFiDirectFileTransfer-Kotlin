@@ -14,8 +14,8 @@ import androidx.core.app.NotificationManagerCompat
  * @Author: dawidolko
  * @Date: 26.11.2024
  *
- * @Desc: BroadcastReceiver odpowiedzialny za monitorowanie poziomu baterii urządzenia.
- * Może być używany do optymalizacji działania aplikacji w zależności od stanu naładowania.
+ * @Desc: BroadcastReceiver monitoring the device battery level.
+ * Can be used to optimise app behaviour depending on the charge state.
  */
 
 class BatteryBroadcastReceiver(
@@ -34,11 +34,15 @@ class BatteryBroadcastReceiver(
                 disableGPS()
                 disableWifiDirect()
 
-                // Informujemy użytkownika o wyłączeniu funkcji
+                /*
+                 * Tell the user the features were disabled
+                 */
                 Toast.makeText(context, "Battery low! GPS and Wi-Fi Direct disabled.", Toast.LENGTH_LONG).show()
 
-                // Wysyłanie powiadomienia o niskim poziomie baterii
-                //  sendLowBatteryNotification(context)
+                /*
+                 * Send a low battery notification
+                 *  sendLowBatteryNotification(context)
+                 */
             }
         }
     }

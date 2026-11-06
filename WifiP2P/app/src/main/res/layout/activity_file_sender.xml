@@ -10,7 +10,9 @@
         android:orientation="vertical"
         android:padding="16dp">
 
-        <!-- Sekcja Wskazówek -->
+        <!--
+          Hints section
+        -->
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -19,7 +21,9 @@
             android:textSize="13sp"
             android:layout_marginBottom="12dp" />
 
-        <!-- Sekcja Przyciski do Odkrywania i Rozłączania -->
+        <!--
+          Section: discovery and disconnect buttons
+        -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -46,7 +50,9 @@
                 android:textColor="@color/text_white" />
         </LinearLayout>
 
-        <!-- Sekcja Wybór Pliku -->
+        <!--
+          Section: file selection
+        -->
         <Button
             android:id="@+id/btnChooseFile"
             android:layout_width="match_parent"
@@ -82,7 +88,9 @@
             android:textSize="16sp"
             android:layout_marginBottom="16dp" />
 
-        <!-- Sekcja Pauzuj/Wznów oraz Pasek Progresu -->
+        <!--
+          Section: pause/resume and progress bar
+        -->
         <Button
             android:id="@+id/btnPauseResume"
             android:layout_width="match_parent"
@@ -112,7 +120,9 @@
             android:visibility="gone"
             android:text="0%" />
 
-        <!-- Informacje o Urządzeniu -->
+        <!--
+          Device information
+        -->
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -139,7 +149,9 @@
             android:textSize="18sp"
             android:layout_marginBottom="8dp" />
 
-        <!-- Lista Urządzeń -->
+        <!--
+          Device list
+        -->
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -155,7 +167,6 @@
             android:layout_height="200dp"
             android:layout_marginBottom="16dp" />
 
-        <!-- Dziennik Logów -->
         <TextView
             android:id="@+id/tvLog"
             android:layout_width="match_parent"
@@ -164,7 +175,9 @@
             android:textSize="18sp"
             android:layout_marginBottom="16dp" />
 
-        <!-- Lista Zaufanych Urządzeń -->
+        <!--
+          Trusted device list
+        -->
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

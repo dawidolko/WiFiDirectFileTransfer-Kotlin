@@ -84,7 +84,9 @@ class FileReceiverViewModel(context: Application) : AndroidViewModel(context) {
             val fileTransfer = objectInputStream.readObject() as FileTransfer
             log("Receiving file: ${fileTransfer.fileName}")
 
-            // Używamy emitowania stanu do informowania Activity
+            /*
+             * Emit state to inform the Activity
+             */
             withContext(Dispatchers.Main) {
                 _fileTransferViewState.emit(FileTransferViewState.Receiving)
             }

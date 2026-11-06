@@ -140,7 +140,9 @@ class FileSenderActivity : AppCompatActivity(), IpAddressCallback {
                 }
             }
         }
-        // Jeśli nie uda się pobrać z OpenableColumns, spróbuj lastPathSegment
+        /*
+         * If it cannot be read from OpenableColumns, try lastPathSegment
+         */
         if (name == null) {
             name = uri.lastPathSegment
         }
@@ -214,7 +216,9 @@ class FileSenderActivity : AppCompatActivity(), IpAddressCallback {
 
                 val fileSize = inputStream?.available() ?: 0
 
-                // Wysyłanie metadanych do odbiorcy:
+                /*
+                 * Send metadata to the receiver:
+                 */
                 val metadataWriter = BufferedWriter(OutputStreamWriter(outputStream))
                 val metadataReader = BufferedReader(InputStreamReader(socket.getInputStream()))
 

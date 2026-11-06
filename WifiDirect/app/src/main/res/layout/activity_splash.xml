@@ -7,9 +7,13 @@
     android:background="@color/background_black"
     tools:context=".SplashActivity">
 
-    <!-- Animowane logo (powiększające się) -->
+    <!--
+      Animated logo (growing)
+    -->
 
-    <!-- Napis o prawach autorskich -->
+    <!--
+      Copyright text
+    -->
 
     <ImageView
         android:id="@+id/logoImageView"

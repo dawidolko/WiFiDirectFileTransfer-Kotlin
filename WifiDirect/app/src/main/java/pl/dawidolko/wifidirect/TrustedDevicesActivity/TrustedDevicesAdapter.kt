@@ -12,8 +12,8 @@ import pl.dawidolko.wifidirect.TrustedDevice
  * @Author: dawidolko
  * @Date: 26.11.2024
  *
- * @Desc: Adapter RecyclerView używany do wyświetlania listy zaufanych urządzeń
- * w TrustedDevicesActivity.
+ * @Desc: RecyclerView adapter for the trusted devices list
+ * in TrustedDevicesActivity.
  */
 
 class TrustedDevicesAdapter(private val devices: MutableList<TrustedDevice>) :
@@ -34,7 +34,6 @@ class TrustedDevicesAdapter(private val devices: MutableList<TrustedDevice>) :
         return devices.size
     }
 
-    // Dodajemy metodę, która dodaje urządzenie do listy
     fun addDevice(device: TrustedDevice) {
         devices.add(device)
         notifyItemInserted(devices.size - 1)
